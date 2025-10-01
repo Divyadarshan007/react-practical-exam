@@ -27,11 +27,22 @@ export const fetchRooms = createAsyncThunk("rooms/fetchRooms", async () => {
     })
     return allRooms
 })
+export const fetchReservation = createAsyncThunk("rooms/fetchReservation", async () => {
+    const { docs } = await getDocs(collection(db, "reserve"))
+    const allReserve = docs.map((doc) => {
+        return {
+            reserveId: doc.id,
+            ...doc.data()
+        }
+    })
+    return allReserve
+})
 
 const hotelSlice = createSlice({
     name: 'rooms',
     initialState: {
-        list: []
+        list: [],
+        reservation: []
     },
     reducers: {
 
@@ -41,8 +52,13 @@ const hotelSlice = createSlice({
             state.list.push(action.payload)
         })
         builder.addCase(fetchRooms.fulfilled, (state, action) => {
-            
             state.list = action.payload
+        })
+        builder.addCase(addReserve.fulfilled, (state, action) => {
+            state.reservation.push(action.payload)
+        })
+        builder.addCase(fetchReservation.fulfilled, (state, action) => {
+            state.reservation = action.payload
         })
     }
 })

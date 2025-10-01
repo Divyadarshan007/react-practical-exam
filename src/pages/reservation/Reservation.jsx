@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
-import { useSelector } from "react-redux"
-import { addReserve } from "../../features/rooms/hotelSlice";
+import { useDispatch, useSelector } from "react-redux"
+import { addReserve, fetchReservation, fetchRooms } from "../../features/rooms/hotelSlice";
+import { useNavigate } from "react-router-dom";
 
 const Reservation = () => {
     const { list } = useSelector(store => store.rooms)
@@ -9,13 +10,19 @@ const Reservation = () => {
     const [input, setInput] = useState({
         name: '', roomId: '', checkIn: ''
     })
+    const dispatch = useDispatch()
+    useEffect(() => {
+        dispatch(fetchRooms())
+        dispatch(fetchReservation())
+    }, [dispatch])
+    const navigate = useNavigate()
     const handleChange = (e) => {
         setInput({ ...input, [e.target.id]: e.target.value })
     }
     const handleSubmit = (e) => {
         e.preventDefault()
         dispatch(addReserve(input))
-        navigate('/rooms')
+        navigate('/allReservation')
     }
     return (
         <div>
@@ -37,9 +44,9 @@ const Reservation = () => {
                     </div>
                     <div className="mb-5">
                         <label htmlFor="checkIn" className="block mb-2 text-sm font-medium text-gray-900 ">checkIn</label>
-                        <input type="date" onChange={handleChange} id="cost" className="shadow-xs bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " required />
+                        <input type="date" onChange={handleChange} id="checkIn" className="shadow-xs bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " required />
                     </div>
-                    <button type="submit" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Add room</button>
+                    <button type="submit" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Assign</button>
                 </form>
             </div>
         </div>

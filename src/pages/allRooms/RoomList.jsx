@@ -1,22 +1,15 @@
-
-import { useDispatch, useSelector } from "react-redux";
-import { fetchRooms } from "../../features/rooms/hotelSlice";
-import { useEffect } from "react";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 const RoomList = () => {
     const { list } = useSelector(store => store.rooms)
-    const dispatch = useDispatch()
-    useEffect(() => {
-        dispatch(fetchRooms())
-    }, [dispatch])
-const navigate = useNavigate()
+    const navigate = useNavigate()
 
     return (
         <div className="container mx-auto py-10">
             <div className="flex justify-between py-5">
                 <h1 className="text-2xl font-semibold">All Rooms</h1>
-                <button className="border px-7 py-2" onClick={()=>navigate('/manageRooms')}>Add Rooms</button>
+                <button className="border px-7 py-2" onClick={() => navigate('/manageRooms')}>Add Rooms</button>
             </div>
             <div className="relative overflow-x-auto  shadow-md sm:rounded-lg">
                 <table className="w-full text-sm text-left  rtl:text-right text-gray-500 dark:text-gray-400">

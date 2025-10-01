@@ -1,6 +1,13 @@
-import React from 'react'
+import { useEffect } from "react"
+import { useDispatch } from "react-redux"
+import { fetchReservation, fetchRooms } from "../features/rooms/hotelSlice"
 
 const Home = () => {
+    const dispatch = useDispatch()
+    useEffect(() => {
+        dispatch(fetchRooms())
+        dispatch(fetchReservation())
+    }, [dispatch])
     return (
         <section className="bg-white h-screen dark:bg-gray-900">
             <div className="py-8 px-4 mx-auto max-w-screen-xl text-center lg:py-16 lg:px-12">
